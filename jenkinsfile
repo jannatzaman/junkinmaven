@@ -1,39 +1,39 @@
 pipeline {
-    agent any
-    environment {
-        MAVEN_HOME = 'C:\\Program Files\\Apache\\maven' // aapka Maven ka path
+agent any
+environment {
+MAVEN_HOME = '/usr/share/maven'
     }
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
+stages {
+stage('Checkout') {
+steps {
+checkout scm
             }
         }
-        stage('Build') {
-            steps {
-                bat "\"${MAVEN_HOME}\\bin\\mvn.cmd\" clean package"
+stage('Build') {
+steps {
+sh "${MAVEN_HOME}/bin/mvn clean package"
             }
         }
-        stage('Test') {
-            steps {
-                bat "\"${MAVEN_HOME}\\bin\\mvn.cmd\" test"
+stage('Test') {
+steps {
+sh "${MAVEN_HOME}/bin/mvn test"
             }
-            post {
-                always {
-                    junit '**/target/surefire-reports/*.xml'
-                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+post {
+always {
+junit '**/target/surefire-reports/*.xml'
+archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 }
             }
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying to staging/production...'
+stage('Deploy') {
+steps {
+echo 'Deploying to staging/production...'
             }
         }
     }
-    post {
-        always {
-            echo 'Pipeline execution complete.'
+post {
+always {
+echo 'Pipeline execution complete.'
         }
     }
 }
