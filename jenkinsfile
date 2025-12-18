@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        MAVEN_HOME = '/usr/share/maven'
+        MAVEN_HOME = 'C:\\Program Files\\Apache\\maven' // aapka Maven ka path
     }
     stages {
         stage('Checkout') {
@@ -11,12 +11,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "${MAVEN_HOME}/bin/mvn clean package"
+                bat "\"${MAVEN_HOME}\\bin\\mvn.cmd\" clean package"
             }
         }
         stage('Test') {
             steps {
-                sh "${MAVEN_HOME}/bin/mvn test"
+                bat "\"${MAVEN_HOME}\\bin\\mvn.cmd\" test"
             }
             post {
                 always {
